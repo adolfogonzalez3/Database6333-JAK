@@ -34,12 +34,12 @@ if ($mysqli = DB_CONNECT()) {
         <?php
         echo "<h3>Welcome, $name!</h3>";
         ?>
-        <button onclick="createProject()">View Projects</button> <br>
+        <button onclick="viewProjects()">View Projects</button> <br>
         <br><br>
         <div id="formDiv"></div>
         
         <script type="text/javascript">
-            function createProject() {
+            function viewProjects() {
                 window.location.href = "projects.php";
             }
         </script>

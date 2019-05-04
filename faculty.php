@@ -47,6 +47,7 @@ if ($mysqli = DB_CONNECT()) {
         <button onclick="createStudent()">Create Student</button> <br>
         <button onclick="createFaculty()">Create Faculty</button> <br>
         <button onclick="createProject()">Create Project</button> <br>
+        <button onclick="viewProjects()">View Projects</button> <br>
         <button onclick="createEquipment()">Create Equipment</button> <br>
         <br><br>
         <div id="formDiv"></div>
@@ -339,6 +340,10 @@ if ($mysqli = DB_CONNECT()) {
                 e9.setAttribute("type", "submit");
                 e9.setAttribute("value", "Submit");
                 form.appendChild(e9);
+            }
+            
+            function viewProjects() {
+                window.location.href = "projects.php";
             }
             
             function validatePassword() {
