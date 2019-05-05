@@ -5,8 +5,7 @@ use JAK;
 
 create table person (
     ID INT NOT NULL AUTO_INCREMENT,
-    username varchar(32), passwordHash INT,
-    passwordSalt VARCHAR(16), joined DATE,
+    username varchar(32), passwordHash CHAR(60), joined DATE,
     PRIMARY KEY (ID));
 
 create table student (
