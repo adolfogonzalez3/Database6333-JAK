@@ -56,25 +56,25 @@
 
         public function testCreateEnvironment()
         {
-            $ID = createEnvironment("test", 0, 10, "some/path/");
+            $ID = createEnvironment($this->_conn, "test", 0, 10, "some/path/");
             $this->assertTrue(checkExist($this->_conn, "Environment", $ID));
         }
 
         public function testCreateEquipment()
         {
-            $ID = createEquipment("test", 0, "place");
+            $ID = createEquipment($this->_conn, "test", 0, "place");
             $this->assertTrue(checkExist($this->_conn, "Equipment", $ID));
         }
 
         public function testCreateAgent()
         {
-            $ID = createAgent("test", "test", "some/path");
+            $ID = createAgent($this->_conn, "test", "test", "some/path");
             $this->assertTrue(checkExist($this->_conn, "Agent", $ID));
         }
 
         public function testCreateModel()
         {
-            $ID = createModel("test", 0, "some/path");
+            $ID = createModel($this->_conn, "test", 0, "some/path");
             $this->assertTrue(checkExist($this->_conn, "Model", $ID));
         }
     }
