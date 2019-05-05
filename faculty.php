@@ -1,18 +1,22 @@
 <?php
 require_once 'Functions/ConnectionFunctionSet.php';
-require_once 'Functions/login.php';
+require_once 'Functions/ValidationFunctionSet.php';
 require_once 'Functions/UpdateFunctionSet.php';
 
 if(!isset($_SESSION)) {
     session_start();
 }
 
-if ($mysqli = DB_CONNECT()) {
-    if (!login_check($mysqli)) {
+if ($conn = DB_CONNECT()) {
+    if (!login_check($conn)) {
         header("Location: index.php");
     }
 }
 
+if (isset($_POST['logout'])) {
+    logout();
+}
+ 
 $username = $_SESSION['username'];
 
 // Gets the list of users
@@ -41,13 +45,17 @@ if ($mysqli = DB_CONNECT()) {
         <h1>JAK</h1>
         <h2>Faculty Page</h2>
         <?php
-        echo "<div>Welcome, $username!</div><a href='logout.php'>Logout</a><br><br>";
+        echo "<div>Welcome, $username!</div><br><br>";
         ?>
         <button onclick="createStudent()">Create Student</button> <br>
         <button onclick="createFaculty()">Create Faculty</button> <br>
         <button onclick="createProject()">Create Project</button> <br>
         <button onclick="viewProjects()">View Projects</button> <br>
         <button onclick="createEquipment()">Create Equipment</button> <br>
+        <form method="post">
+            <input name='logout' hidden />
+            <input type="submit" value="Logout"/>
+        </form>
         <br><br>
         <div id="formDiv"></div>
         <?php

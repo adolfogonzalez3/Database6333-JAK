@@ -1,14 +1,29 @@
 <?php
 require_once 'Functions/ConnectionFunctionSet.php';
-require_once 'Functions/login.php';
+require_once 'Functions/ValidationFunctionSet.php';
 
 if(!isset($_SESSION)) {
     session_start();
 }
 
-if ($mysqli = DB_CONNECT()) {
-    if (login_check($mysqli) == true) {
+if ($conn = DB_CONNECT()) {
+    if (login_check($conn) == true) {
         header("Location: faculty.php");
+    }
+}
+
+if (isset($_POST['username'], $_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    if ($conn = DB_CONNECT()) {
+        if (login($conn, $username, $password)) {
+            header('Location: faculty.php');
+        } else {
+            header("Location: index.php?error=2");
+        }
+    } else {
+        header("Location: index.php?error=1");
     }
 }
 
@@ -21,16 +36,19 @@ if ($mysqli = DB_CONNECT()) {
     <body>
         <h1>JAK</h1>
         <h2>Login</h2>
-        <form action="Functions/login.php" method="post" id="loginForm" autocomplete="off">
+        <form method="post" id="loginForm" autocomplete="off">
             <div id="inputName">Username:</div>
-            <input type="text" name="username" id="username" />
+            <input type="text" name="username" id="username" required />
             <div id="inputName">Password:</div>
-            <input type="password" name="password" id="password" /><br><br>
+            <input type="password" name="password" id="password" required /><br><br>
             <input type="submit" value="Login" />
         </form>
         <?php
         if (isset($_GET["error"])) {
-            echo '<div class="error">Error Logging In!</div>';
+            if ($_GET["error"] == 1)
+                echo '<div class="error">Error Logging In!</div>';
+            elseif ($_GET["error"] == 2)
+                echo '<div class="error">Wrong username or password.</div>';
         }
         ?>
 
