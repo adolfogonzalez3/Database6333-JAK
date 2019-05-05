@@ -3,7 +3,7 @@ from random import randint, choice
 from time import gmtime, strftime
 
 
-person_sql = "insert into person (username, passwordHash, passwordSalt, joined) values ('{}',{:d},'{}','{}');"
+person_sql = "insert into person (username, passwordHash, joined) values ('{}','{}','{}');"
 student_sql = "insert into student (ID, major, classification) values (LAST_INSERT_ID(),'{}',{:d});"
 faculty_sql = "insert into faculty (ID, department) values (LAST_INSERT_ID(),'{}');"
 project_sql = "insert into project (startDate, endDate, leadID, name) values ('{}','{}',LAST_INSERT_ID(),'{}');"
@@ -20,21 +20,19 @@ if __name__ == "__main__":
     insertion_list = []
     for i in range(5):
         name = generate_random_str()
-        salt = generate_random_str(8)
-        passHash = hash(name + salt)
+        passHash = generate_random_str(60)
         joined = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-        insertion_list.append(person_sql.format(name, passHash, salt, joined))
+        insertion_list.append(person_sql.format(name, passHash, joined))
         insertion_list.append(student_sql.format(choice(MAJORS), randint(1, 4)))
 
     for i in range(5):
         name = generate_random_str()
-        salt = generate_random_str(8)
-        passHash = hash(name + salt)
+        passHash = generate_random_str(60)
         joined = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         start = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         end = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         project_name = generate_random_str()
-        insertion_list.append(person_sql.format(name, passHash, salt, joined))
+        insertion_list.append(person_sql.format(name, passHash, joined))
         insertion_list.append(faculty_sql.format(choice(MAJORS)))
         insertion_list.append(project_sql.format(start, end, project_name))
         insertion_list.append(experiment_sql.format(i, start, 0))
