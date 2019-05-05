@@ -14,6 +14,18 @@ function checkExist($conn, $name, $ID)
 }
 
 /**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function isStudent($conn, $ID)
+{
+    return checkExist($conn, 'student', $ID);
+}
+
+/**
  * Logs user in
  * 
  * Return (BOOL): true if valid user and password
@@ -98,6 +110,7 @@ function logout() {
     setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
     session_destroy();
 
+    
     header('Location: index.php');
 }
 

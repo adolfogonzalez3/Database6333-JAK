@@ -4,6 +4,7 @@ from time import gmtime, strftime
 from collections import namedtuple
 from random import randint, choice, random
 
+import bcrypt
 
 person_sql = ("insert into person (username, passwordHash, joined) values "
               "('{}','{}','{}');")
@@ -45,7 +46,7 @@ MAJORS = ['CSCI', 'ME', 'EE']
 def create_person():
     sql_statements = []
     name = generate_random_str()
-    passHash = generate_random_str(60)
+    passHash = bcrypt.hashpw(b'password', bcrypt.gensalt()).decode('utf-8')
     joined = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
     sql_statements.append(person_sql.format(name, passHash, joined))
     sql_statements.append('SET @PersonID = LAST_INSERT_ID();')
@@ -132,7 +133,7 @@ def create_result():
     path = generate_random_str(256)
     return [result_sql.format('FALSE', path)]
 
-def generate_random_str(length=16):
+def generate_random_str(length=8):
     return "".join([chr(randint(65, 91)) for _ in range(length)])
 
 if __name__ == "__main__":
@@ -158,7 +159,7 @@ if __name__ == "__main__":
         insertion_list.extend(create_result())
 
 
-    print("\n".join(insertion_list))
+    #print("\n".join(insertion_list))
     with open('fill_JAK.sql', 'wt') as sql:
         sql.write('use JAK;\n')
         sql.write('\n'.join(insertion_list))
