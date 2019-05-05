@@ -1,5 +1,5 @@
 <?php
-require_once '/../DatabaseConnect/db_connect.php';
+require_once(__DIR__.'/../Functions/ConnectionFunctionSet.php');
 
 if (!isset($_SESSION)) {
     session_start();
@@ -18,7 +18,7 @@ function secure_session_start() {
 }
 
 function login($username, $password, $mysqli) {
-    if ($stmt = $mysqli->prepare("SELECT ID, name, passwordHash FROM person where name = ? LIMIT 1")) {
+    if ($stmt = $mysqli->prepare("SELECT ID, username, passwordHash FROM person where username = ? LIMIT 1")) {
         $stmt->bind_param('s', $username);
         $stmt->execute();
         $stmt->store_result();

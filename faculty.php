@@ -1,6 +1,7 @@
 <?php
-require_once 'DatabaseConnect/db_connect.php';
+require_once(__DIR__.'/Functions/ConnectionFunctionSet.php');
 require_once 'Functions/login.php';
+require_once 'Functions/UpdateFunctionSet.php';
 
 if(!isset($_SESSION)) {
     session_start();
@@ -14,14 +15,14 @@ if ($mysqli = DB_CONNECT()) {
 
 $username = $_SESSION['username'];
 
-// Connect to database
+// Gets the list of users
 if ($mysqli = DB_CONNECT()) {
-    if ($stmt = $mysqli->prepare("SELECT name FROM person")) {
+    if ($stmt = $mysqli->prepare("SELECT username FROM person")) {
         $users = array();
         $stmt->execute();
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
-            array_push($users, $row['name']);
+            array_push($users, $row['username']);
         }
         $stmt->close();
     } else {
@@ -49,6 +50,53 @@ if ($mysqli = DB_CONNECT()) {
         <button onclick="createEquipment()">Create Equipment</button> <br>
         <br><br>
         <div id="formDiv"></div>
+        <?php
+        if (isset($_POST['name'], $_POST['major'], $_POST['classification'], $_POST['pass1'], $_POST['pass2'])) {
+            if ($conn = DB_CONNECT()) {
+                if ($id = createPerson($conn, $_POST['name'], $_POST['pass1'])) {
+                    createStudent($conn, $id, $_POST['major'], $_POST['classification']);
+                    $_POST = array();
+                    echo "Student created successfully!";
+                } else {
+                    echo "1Something went wrong...";
+                }
+            } else {
+                echo "2Something went wrong...";
+            }
+        }
+
+        if (isset($_POST['name'], $_POST['department'], $_POST['pass1'], $_POST['pass2'])) {
+            if ($conn = DB_CONNECT()) {
+                if ($id = createPerson($conn, $_POST['name'], $_POST['pass1'])) {
+                    createFaculty($conn, $id, $_POST['department']);
+                    $_POST = array();
+                    echo "Faculty created successfully!";
+                } else {
+                    echo "Something went wrong...";
+                }
+            } else {
+                echo "Something went wrong...";
+            }
+        }
+
+        if (isset($_POST['startDate'], $_POST['endDate'], $_POST['leadID'], $_POST['name'])) {
+            if ($mysqli = DB_CONNECT()) {
+                createProject($_POST['name'], $_POST['leadID'], $_POST['startDate'], $_POST['endDate']);
+                $_POST = array();
+            } else {
+                echo "Something went wrong...";
+            }
+        }
+
+        if (isset($_POST['name'], $_POST['category'], $_POST['location'])) {
+            if ($conn = DB_CONNECT()) {
+                createEquipment();
+                $_POST = array();
+            } else {
+                echo "Something went wrong...";
+            }
+        }
+        ?>
         
         <script type="text/javascript">
             var data = <?php echo json_encode($users); ?>;
@@ -63,7 +111,6 @@ if ($mysqli = DB_CONNECT()) {
                 var form = document.createElement('form');
                 form.setAttribute('id', "leForm");
                 form.setAttribute('autocomplete', 'off');
-                form.setAttribute('action', 'Functions/create_student.php');
                 form.setAttribute('method', 'POST');
                 formDiv.appendChild(form);
                 

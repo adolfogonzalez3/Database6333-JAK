@@ -12,17 +12,20 @@
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
     function createPerson($conn, $username, $password) {
-        $sqlperson = "INSERT INTO person (username, passwordHash, joined) values (?, ?, ?)";
-        $stmt = $conn->prepare($sqlperson);
-        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $date = date("Y-m-d");
-        $stmt->bind_param("sss", $username, $passwordHash, $date);
-        if (!$stmt->execute()) {
+        $sql = "INSERT INTO person (username, passwordHash, joined) values (?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            $date = date("Y-m-d");
+            $stmt->bind_param("sss", $username, $passwordHash, $date);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                return false; 
+            }
             $stmt->close();
-            return FALSE;
+            return $conn->insert_id;
+        } else {
+            return false;
         }
-        $stmt->close();
-        return $conn->insert_id;
     }
 
     /*
@@ -37,17 +40,25 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createStudent($mysqli, $username, $password, $major, $classification) {
-        
-        
-
-
+    function createStudent($conn, $id, $major, $classification) {
+        $sql = "INSERT INTO student VALUES (?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("iss", $id, $major, $classification);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 
     /*
     * Create a Faculty member given the required fields.
     * 
-    * Inserts a tuple into the faculty table.
+    * Inserts a tuple into the person and faculty tables.
     * conn (mysqli Connection): A connection to the database.
     * username (String): The user's username at max 32 characters.
     * password (String): The user's password, currently unconstrained.
@@ -55,11 +66,19 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createFaculty($mysqli, $username, $password, $department) {
-        
-        
-
-
+    function createFaculty($conn, $id, $department) {
+        $sql = "INSERT INTO faculty VALUES (?, ?)";
+        if ($stmt = $conn->prepare(sql)) {
+            $stmt->bind_param("is", $id, $department);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 
     /*
@@ -72,11 +91,18 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createProject($mysqli, $name, $leadID) {
-        
-        
-
-
+    function createProject($conn, $name, $leadID, $startDate, $endDate) {
+        if ($stmt = $conn->prepare("INSERT INTO project (startDate, endDate, leadID, name) values (?, ?, ?, ?)")) {
+            $stmt->bind_param("ssss", $startDate, $endDate, $leadID, $name);
+            if(!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 
     /*
@@ -91,7 +117,7 @@
     *
     * Return (INT): Experiment number of newly created tuple. Or FALSE on fail.
     */
-    function createExperiment($mysqli, $name, $leadID) {
+    function createExperiment($conn, $name, $leadID) {
         
     }
 
@@ -107,7 +133,7 @@
     *
     * Return (INT): ID of the newly created tuple. Or FALSE on fail.
     */
-    function createEnvironment($mysqli, $name, $low, $high, $path) {
+    function createEnvironment($conn, $name, $low, $high, $path) {
         
     }
 
@@ -126,8 +152,19 @@
     *
     * Return (INT): ID of newly created tuple. Or FALSE on fail.
     */
-    function createEquipment($mysqli, $name, $category, $location) {
-        
+    function createEquipment($conn, $name, $category, $location) {
+        $sql = "INSERT INTO equipment (name, category, location) VALUES (?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("sss", $name, $category, $location);
+            if(!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 
     /*
