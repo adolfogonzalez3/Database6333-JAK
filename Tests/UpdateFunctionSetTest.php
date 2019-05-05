@@ -1,13 +1,8 @@
 <?php
     use PHPUnit\Framework\TestCase;
     require_once(__DIR__.'/../Functions/ConnectionFunctionSet.php');
+    require_once(__DIR__.'/../Functions/ValidationFunctionSet.php');
     require_once(__DIR__.'/../Functions/UpdateFunctionSet.php');
-
-    function checkExist($conn, $name, $ID)
-    {
-        $Q = $conn->query("select * from ".$name." where ID=".$ID);
-        return !empty($Q);
-    }
 
     class UpdateFunctionSetTest extends PHPUnit_Framework_TestCase
     {
@@ -55,7 +50,7 @@
         {
             $ID = createFaculty($this->_conn, "test", "password", "CS");
             $ID = createProject($this->_conn, "test", $ID);
-            testCreateExperiment($this->_conn, $ID, 0, 0);
+            $ID = CreateExperiment($this->_conn, $ID, 0, 0);
             $this->assertTrue(checkExist($this->_conn, "Experiment", $ID));
         }
 

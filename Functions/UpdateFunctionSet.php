@@ -96,6 +96,22 @@
     }
 
     /*
+    * Create an experiment given the required fields.
+    * 
+    * Inserts a tuple into the experiment table.
+    * conn (mysqli Connection): A connection to the database.
+    * name (String): The name of the environment.
+    * low (FLOAT or NULL): The minimum reward possible.
+    * high (FLOAT or NULL): The maximum reward possible.
+    * path (String): The path to the environment.
+    *
+    * Return (INT): Experiment number of newly created tuple. Or FALSE on fail.
+    */
+    function createExperiment($mysqli, $name, $low, $high, $leadID) {
+        
+    }
+
+    /*
     * Create an equipment given the required fields.
     * 
     * Inserts a tuple into the experiment table.
@@ -143,17 +159,15 @@
     * 
     * Inserts a tuple into the experiment table.
     * conn (mysqli Connection): A connection to the database.
-    * name (String): The name of the equipment at most 32 characters.
-    * category (INT): The category of the equipment.
-    *       0 - Desktop
-    *       1 - Monitor
-    *       2 - GPU
-    *       3 - Monitor
+    * name (String): The name of the model at most 32 characters.
+    * category (INT): The category of the model.
+    *       0 - Classification
+    *       1 - Reinforcement Learning
     * path (String): The path to the model's files.
     *
     * Return (INT): ID of newly created tuple. Or FALSE on fail.
     */
-    function createEquipment($mysqli, $name, $category, $path) {
+    function createModel($mysqli, $name, $category, $path) {
         
     }
 ?>
