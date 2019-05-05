@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__.'/Functions/ConnectionFunctionSet.php');
-require_once(__DIR__.'/Functions/login.php');
+require_once 'Functions/ConnectionFunctionSet.php';
+require_once 'Functions/login.php';
 
 if(!isset($_SESSION)) {
     session_start();
