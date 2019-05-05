@@ -28,11 +28,11 @@ create table project (
     FOREIGN KEY (leadID) REFERENCES person(ID));
                       
 create table experiment (
+    experimentNo INT NOT NULL AUTO_INCREMENT,
     ProjectID INT NOT NULL,
-    experimentNo INT NOT NULL,
     startDate DATE,
     category INT,
-    PRIMARY KEY (ProjectID, experimentNo),
+    PRIMARY KEY (experimentNo, ProjectID),
     FOREIGN KEY (ProjectID) REFERENCES project(ID));
                          
 create table environment (
