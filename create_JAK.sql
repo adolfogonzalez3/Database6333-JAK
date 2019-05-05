@@ -29,7 +29,7 @@ create table project (
                       
 create table experiment (
     ProjectID INT NOT NULL,
-    experimentNo INT NOT NULL AUTO_INCREMENT,
+    experimentNo INT NOT NULL,
     startDate DATE,
     category INT,
     PRIMARY KEY (ProjectID, experimentNo),
