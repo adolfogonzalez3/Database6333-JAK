@@ -1,3 +1,21 @@
 use JAK;
-
-insert into student
+insert into person (username, passwordHash, passwordSalt, joined) values ('YOXXEKFTJWSAVCUA',4587793050647108532,'ILHUVRYO','Sun, 05 May 2019 06:09:34 +0000');
+insert into student (ID, major, classification) values (LAST_INSERT_ID(),'ME',2);
+insert into person (username, passwordHash, passwordSalt, joined) values ('[MGNGAANCPBYUILU',2175462095029166264,'HZBOWVZZ','Sun, 05 May 2019 06:09:34 +0000');
+insert into student (ID, major, classification) values (LAST_INSERT_ID(),'EE',2);
+insert into person (username, passwordHash, passwordSalt, joined) values ('JBFJQR[AHWDWMYZZ',4547154120950253337,'P[YSAVJO','Sun, 05 May 2019 06:09:34 +0000');
+insert into student (ID, major, classification) values (LAST_INSERT_ID(),'ME',1);
+insert into person (username, passwordHash, passwordSalt, joined) values ('[SQAFSFTLMWOHPPQ',-2801622041420735131,'SGDYZMCG','Sun, 05 May 2019 06:09:34 +0000');
+insert into student (ID, major, classification) values (LAST_INSERT_ID(),'ME',2);
+insert into person (username, passwordHash, passwordSalt, joined) values ('KO[PSTIEBX[ORZ[W',1376772084267344744,'BQVAZUNL','Sun, 05 May 2019 06:09:34 +0000');
+insert into student (ID, major, classification) values (LAST_INSERT_ID(),'CSCI',1);
+insert into person (username, passwordHash, passwordSalt, joined) values ('IILVNCU[TOXZLSPI',-8992150522491176124,'ATAXCMMM','Sun, 05 May 2019 06:09:34 +0000');
+insert into faculty (ID, department) values (LAST_INSERT_ID(),'ME');
+insert into person (username, passwordHash, passwordSalt, joined) values ('QXEHODC[GROXCBOR',-5348463977340436706,'[CHYJXFV','Sun, 05 May 2019 06:09:34 +0000');
+insert into faculty (ID, department) values (LAST_INSERT_ID(),'EE');
+insert into person (username, passwordHash, passwordSalt, joined) values ('QTSLS[XNTCSRMQOE',-613852793442853552,'FEHWKMCN','Sun, 05 May 2019 06:09:34 +0000');
+insert into faculty (ID, department) values (LAST_INSERT_ID(),'EE');
+insert into person (username, passwordHash, passwordSalt, joined) values ('H[HHYMIJPBQOMBHX',1242231877940840593,'IVGVPHIO','Sun, 05 May 2019 06:09:34 +0000');
+insert into faculty (ID, department) values (LAST_INSERT_ID(),'EE');
+insert into person (username, passwordHash, passwordSalt, joined) values ('VPCRQJGPWNPLMTZS',1411240840770893944,'QODOHOXL','Sun, 05 May 2019 06:09:34 +0000');
+insert into faculty (ID, department) values (LAST_INSERT_ID(),'CSCI');
