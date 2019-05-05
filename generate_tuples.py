@@ -2,17 +2,18 @@
 from random import randint, choice
 from time import gmtime, strftime
 
+
 person_sql = "insert into person (username, passwordHash, passwordSalt, joined) values ('{}',{:d},'{}','{}');"
 student_sql = "insert into student (ID, major, classification) values (LAST_INSERT_ID(),'{}',{:d});"
 faculty_sql = "insert into faculty (ID, department) values (LAST_INSERT_ID(),'{}');"
-project_sql = "insert into project (startDate, endDate, leadID, name) values ('{}','{}',{:d},'{}');"
-experiment_sql = "insert into experiment values ({:d},{:d},'{}',{:d});"
-
+project_sql = "insert into project (startDate, endDate, leadID, name) values ('{}','{}',LAST_INSERT_ID(),'{}');"
+experiment_sql = "insert into experiment (ProjectID, experimentNo, startDate, category) values (LAST_INSERT_ID(),{:d},'{}',{:d});"
 
 def generate_random_str(length=16):
     return "".join([chr(randint(65, 91)) for _ in range(length)])
 
 MAJORS = ['CSCI', 'ME', 'EE']
+
 
 if __name__ == "__main__":
 
@@ -30,8 +31,14 @@ if __name__ == "__main__":
         salt = generate_random_str(8)
         passHash = hash(name + salt)
         joined = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        start = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        end = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        project_name = generate_random_str()
         insertion_list.append(person_sql.format(name, passHash, salt, joined))
         insertion_list.append(faculty_sql.format(choice(MAJORS)))
+        insertion_list.append(project_sql.format(start, end, project_name))
+        insertion_list.append(experiment_sql.format(i, start, 0))
+
 
 
     print("\n".join(insertion_list))
