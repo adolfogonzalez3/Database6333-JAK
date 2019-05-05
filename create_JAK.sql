@@ -49,7 +49,7 @@ create table equipment (
                         
 create table agent (
     ID INT NOT NULL AUTO_INCREMENT,
-    actionsSpace varchar(32),
+    actionSpace varchar(32),
     observationSpace varchar(32), path varchar(256),
     PRIMARY KEY (ID));
                     
@@ -57,6 +57,13 @@ create table Model (
     ID INT NOT NULL AUTO_INCREMENT,
     name varchar(32), category INT, path varchar(256),
     PRIMARY KEY (ID));
+
+create table EquipmentBelongsTo (
+    equipmentID INT NOT NULL,
+    userID INT NOT NULL,
+    FOREIGN KEY (equipmentID) REFERENCES equipment(ID),
+    FOREIGN KEY (userID) REFERENCES Faculty(ID)
+);
 
 create table agentUsesmodel (agentID INT, modelID INT,
                              FOREIGN KEY (agentID) REFERENCES agent(ID),
