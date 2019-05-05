@@ -28,22 +28,24 @@
         public function testCreateStudent()
         {
             $ID = createStudent($this->_conn, "test", "password", "CS", 1);
-            $Q = $this->_conn->query("select * from Person where ID = ".$ID);
+            $Q = $this->_conn->query("select * from Student where ID = ".$ID);
             $this->assertNotEmpty($Q);
         }
 
         public function testCreateFaculty()
         {
             $ID = createFaculty($this->_conn, "test", "password", "CS");
-            $Q = $this->_conn->query("select * from Person where ID = ".$ID);
+            $Q = $this->_conn->query("select * from Faculty where ID = ".$ID);
             $this->assertNotEmpty($Q);
         }
 
         public function testCreateProject()
         {
             $ID = createFaculty($this->_conn, "test", "password", "CS");
-            $Q = $this->_conn->query("select * from Person where ID = ".$ID);
+            $Q = $this->_conn->query("select * from Project where ID = ".$ID);
             $this->assertNotEmpty($Q);
         }
+
+
     }
 ?>
