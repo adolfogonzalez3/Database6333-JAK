@@ -80,9 +80,9 @@
     }
 
     /*
-    * Create a Faculty member given the required fields.
+    * Create an experiment given the required fields.
     * 
-    * Inserts a tuple into the faculty table.
+    * Inserts a tuple into the experiment table.
     * conn (mysqli Connection): A connection to the database.
     * name (String): The name of the project at most 64 characters.
     * leadID (String): The project's lead. Constrained to faculty.
