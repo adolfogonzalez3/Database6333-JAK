@@ -1,27 +1,27 @@
 <?php
-// Session stuff
+require_once 'Functions/ConnectionFunctionSet.php';
+require_once 'Functions/ValidationFunctionSet.php';
+require_once 'Functions/UpdateFunctionSet.php';
 
-// $user = $_POST['user'];
-// Connect to database
-require_once 'DatabaseConnect/db_connect.php';
-if ($mysqli = DB_CONNECT()) {
-    if ($stmt = $mysqli->prepare("SELECT name FROM person WHERE id = ?")) {
-        $user = 3;
-        $stmt->bind_param("i", $user);
-        $stmt->execute();
-        
-        $result = $stmt->get_result();
-        if ($result->num_rows === 0)
-            exit("No user with id $user exists");
-        $row = $result->fetch_assoc();
-        $name = $row['name'];
-        $stmt->close();
-    } else {
-        exit('Statement failed');
-    }
-} else {
-    exit('Database failed to connect');
+if(!isset($_SESSION)) {
+    session_start();
 }
+
+if ($conn = DB_CONNECT()) {
+    if (!login_check($conn)) {
+        header("Location: index.php");
+    }
+}
+
+if (isset($_POST['logout'])) {
+    logout();
+}
+
+if ($_SESSION['user_type'] == 'faculty')
+    header("Location: faculty.php");
+
+$name = $_SESSION['username'];
+
 ?>
 
 <html>
@@ -35,7 +35,11 @@ if ($mysqli = DB_CONNECT()) {
         echo "<h3>Welcome, $name!</h3>";
         ?>
         <button onclick="viewProjects()">View Projects</button> <br>
-        <br><br>
+        <form method="post">
+            <input name='logout' hidden />
+            <input type="submit" value="Logout"/>
+        </form>
+        <br>
         <div id="formDiv"></div>
         
         <script type="text/javascript">

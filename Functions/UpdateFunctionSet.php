@@ -1,5 +1,6 @@
 <?php
     require_once(__DIR__.'/../Functions/ConnectionFunctionSet.php');
+    require_once(__DIR__.'/../Functions/ValidationFunctionSet.php');
     /*
     * Create a student given the required fields.
     * 
@@ -12,6 +13,8 @@
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
     function createPerson($conn, $username, $password) {
+        if (userExists($conn, $username))
+            return false;
         $sql = "INSERT INTO person (username, passwordHash, joined) values (?, ?, ?)";
         if ($stmt = $conn->prepare($sql)) {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);

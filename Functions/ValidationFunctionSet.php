@@ -29,6 +29,11 @@ function login($conn, $username, $password) {
         $stmt->fetch();
         if ($stmt->num_rows == 1) {
             if (password_verify($password, $db_password)) {
+                if (isStudent($conn, $username)) {
+                    $_SESSION['user_type'] = 'student';
+                } else {
+                    $_SESSION['user_type'] = 'faculty';
+                }
                 $user_browser = $_SERVER['HTTP_USER_AGENT'];
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['username'] = $username;
@@ -94,5 +99,37 @@ function logout() {
     session_destroy();
 
     header('Location: index.php');
+}
+
+function userExists($conn, $username) {
+    $sql = "SELECT * FROM person WHERE username = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("s", $username);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return true;
+        }
+        $stmt->store_result();
+        if ($stmt->num_rows != 0) {
+            return true;
+        } else {
+            return false;
+        }
+        $stmt->close();
+    } else {
+        return true;
+    }
+}
+
+function isStudent($conn, $username) {
+    $sql = "SELECT username FROM person P JOIN student S ON(P.id = S.id)";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $stmt->bind_result($name);
+    while ($stmt->fetch()) {
+        if ($name == $username)
+            return true;
+    }
+    return false;
 }
 ?>

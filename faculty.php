@@ -16,6 +16,9 @@ if ($conn = DB_CONNECT()) {
 if (isset($_POST['logout'])) {
     logout();
 }
+
+if ($_SESSION['user_type'] == 'student')
+    header("Location: student.php");
  
 $username = $_SESSION['username'];
 
@@ -56,7 +59,7 @@ if ($mysqli = DB_CONNECT()) {
             <input name='logout' hidden />
             <input type="submit" value="Logout"/>
         </form>
-        <br><br>
+        <br>
         <div id="formDiv"></div>
         <?php
         if (isset($_POST['name'], $_POST['major'], $_POST['classification'], $_POST['pass1'], $_POST['pass2'])) {
