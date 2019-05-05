@@ -13,4 +13,15 @@
         return !empty($Q);
     }
 
+    /**
+     * Checks if ID belongs to student.
+     * 
+     * Checks if a person ID belongs to a student.
+     * 
+     * Return (BOOL): TRUE if ID belongs to student else FALSE
+     */
+    function isStudent($conn, $ID)
+    {
+        return checkExist($conn, 'student', $ID);
+    }
 ?>
