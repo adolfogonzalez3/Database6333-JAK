@@ -1,25 +1,23 @@
 <?php
-// Session stuff
-
-// $user = $_POST['user'];
-// Connect to database
 require_once 'DatabaseConnect/db_connect.php';
+require_once 'Functions/login.php';
+
+if(!isset($_SESSION)) {
+    session_start();
+}
+
 if ($mysqli = DB_CONNECT()) {
-    if ($stmt = $mysqli->prepare("SELECT name FROM person WHERE id = ?")) {
-        $user = 1;
-        $stmt->bind_param("i", $user);
-        $stmt->execute();
-        
-        $result = $stmt->get_result();
-        if ($result->num_rows === 0)
-            exit("No user with id $user exists");
-        $row = $result->fetch_assoc();
-        $name = $row['name'];
-        $stmt->close();
-        
+    if (!login_check($mysqli)) {
+        header("Location: index.php");
+    }
+}
+
+$username = $_SESSION['username'];
+
+// Connect to database
+if ($mysqli = DB_CONNECT()) {
+    if ($stmt = $mysqli->prepare("SELECT name FROM person")) {
         $users = array();
-        
-        $stmt = $mysqli->prepare("SELECT name FROM person");
         $stmt->execute();
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
@@ -42,7 +40,7 @@ if ($mysqli = DB_CONNECT()) {
         <h1>JAK</h1>
         <h2>Faculty Page</h2>
         <?php
-        echo "<h3>Welcome, $name!</h3>";
+        echo "<div>Welcome, $username!</div><a href='logout.php'>Logout</a><br><br>";
         ?>
         <button onclick="createStudent()">Create Student</button> <br>
         <button onclick="createFaculty()">Create Faculty</button> <br>
