@@ -42,9 +42,11 @@
         public function testCreateProject()
         {
             $ID = createFaculty($this->_conn, "test", "password", "CS");
+            $ID = createProject($this->_conn, "test", $ID);
             $Q = $this->_conn->query("select * from Project where ID = ".$ID);
             $this->assertNotEmpty($Q);
         }
+
 
 
     }
