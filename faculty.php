@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__.'/Functions/ConnectionFunctionSet.php');
+require_once 'Functions/ConnectionFunctionSet.php';
 require_once 'Functions/login.php';
 require_once 'Functions/UpdateFunctionSet.php';
 
@@ -192,7 +192,6 @@ if ($mysqli = DB_CONNECT()) {
                 var form = document.createElement('form');
                 form.setAttribute('id', "leForm");
                 form.setAttribute('autocomplete', 'off');
-                form.setAttribute('action', 'Functions/create_faculty.php');
                 form.setAttribute('method', 'POST');
                 formDiv.appendChild(form);
                 
@@ -263,7 +262,6 @@ if ($mysqli = DB_CONNECT()) {
                 var form = document.createElement('form');
                 form.setAttribute('id', "leForm");
                 form.setAttribute('autocomplete', 'off');
-                form.setAttribute('action', 'Functions/create_project.php');
                 form.setAttribute('method', 'POST');
                 formDiv.appendChild(form);
                 
@@ -335,7 +333,6 @@ if ($mysqli = DB_CONNECT()) {
                 var form = document.createElement('form');
                 form.setAttribute('id', "leForm");
                 form.setAttribute('autocomplete', 'off');
-                form.setAttribute('action', 'Functions/create_equipment.php');
                 form.setAttribute('method', 'POST');
                 formDiv.appendChild(form);
                 

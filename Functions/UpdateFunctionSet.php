@@ -68,7 +68,7 @@
     */
     function createFaculty($conn, $id, $department) {
         $sql = "INSERT INTO faculty VALUES (?, ?)";
-        if ($stmt = $conn->prepare(sql)) {
+        if ($stmt = $conn->prepare($sql)) {
             $stmt->bind_param("is", $id, $department);
             if (!$stmt->execute()) {
                 $stmt->close();

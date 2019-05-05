@@ -1,5 +1,5 @@
 <?php
-require_once 'DatabaseConnect/db_connect.php';
+require_once 'Functions/ConnectionFunctionSet.php';
 require_once 'Functions/login.php';
 
 if(!isset($_SESSION)) {
