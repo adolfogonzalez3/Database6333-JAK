@@ -10,13 +10,13 @@ create table person (
     PRIMARY KEY (ID));
 
 create table student (
-    ID INT NOT NULL AUTO_INCREMENT,
+    ID INT NOT NULL,
     major varchar(32), classification INT,
     PRIMARY KEY (ID),
     FOREIGN KEY (ID) REFERENCES person (ID));
 
 create table faculty (
-    ID INT NOT NULL AUTO_INCREMENT,
+    ID INT NOT NULL,
     department varchar(32),
     PRIMARY KEY (ID),
     FOREIGN KEY (ID) REFERENCES person(ID));
@@ -25,7 +25,8 @@ create table project (
     ID INT NOT NULL AUTO_INCREMENT,
     startDate DATE, endDate DATE, leadID INT,
     name varchar(64),
-    PRIMARY KEY (ID));
+    PRIMARY KEY (ID),
+    FOREIGN KEY (leadID) REFERENCES person(ID));
                       
 create table experiment (
     ProjectID INT NOT NULL,
