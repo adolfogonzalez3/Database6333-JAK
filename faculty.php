@@ -63,46 +63,59 @@ if ($mysqli = DB_CONNECT()) {
         <div id="formDiv"></div>
         <?php
         if (isset($_POST['name'], $_POST['major'], $_POST['classification'], $_POST['pass1'], $_POST['pass2'])) {
+            $name = $_POST['name'];
+            $password = $_POST['pass1'];
+            $major = $_POST['major'];
+            $classification = $_POST['classification'];
             if ($conn = DB_CONNECT()) {
-                if ($id = createPerson($conn, $_POST['name'], $_POST['pass1'])) {
-                    createStudent($conn, $id, $_POST['major'], $_POST['classification']);
-                    $_POST = array();
+                $ID = createStudent($conn, $name, $password, $major, $classification);
+                if ($ID != FALSE)
                     echo "Student created successfully!";
-                } else {
-                    echo "1Something went wrong...";
-                }
             } else {
-                echo "2Something went wrong...";
+                echo "Something went wrong...";
             }
         }
 
         if (isset($_POST['name'], $_POST['department'], $_POST['pass1'], $_POST['pass2'])) {
+            $name = $_POST['name'];
+            $password = $_POST['pass1'];
+            $department = $_POST['department'];
             if ($conn = DB_CONNECT()) {
-                if ($id = createPerson($conn, $_POST['name'], $_POST['pass1'])) {
-                    createFaculty($conn, $id, $_POST['department']);
-                    $_POST = array();
+                $ID = createFaculty($conn, $name, $password, $department);
+                if ($ID != FALSE)
                     echo "Faculty created successfully!";
-                } else {
-                    echo "Something went wrong...";
-                }
             } else {
                 echo "Something went wrong...";
             }
         }
 
         if (isset($_POST['startDate'], $_POST['endDate'], $_POST['leadID'], $_POST['name'])) {
-            if ($mysqli = DB_CONNECT()) {
-                createProject($_POST['name'], $_POST['leadID'], $_POST['startDate'], $_POST['endDate']);
-                $_POST = array();
+            $name = $_POST['name'];
+            $leadID = $_POST['leadID'];
+            echo $leadID;
+            $startDate = $_POST['startDate'];
+            $endDate = $_POST['endDate'];
+            if ($conn = DB_CONNECT()) {
+                $ID = createProject($conn, $name, $leadID, $startDate, $endDate);
+                echo $ID;
+                if ($ID != FALSE)
+                    echo "Project created successfully!";
+                else {
+                    echo "FAILURE";
+                }
             } else {
                 echo "Something went wrong...";
             }
         }
 
         if (isset($_POST['name'], $_POST['category'], $_POST['location'])) {
+            $name = $_POST['name'];
+            $category = $_POST['category'];
+            $location = $_POST['location'];
             if ($conn = DB_CONNECT()) {
-                createEquipment();
-                $_POST = array();
+                $ID = createEquipment($conn, $name, $category, $location);
+                if ($ID != FALSE)
+                    echo "Student created successfully!";
             } else {
                 echo "Something went wrong...";
             }
