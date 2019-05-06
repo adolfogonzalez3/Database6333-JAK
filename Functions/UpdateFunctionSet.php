@@ -73,7 +73,7 @@
         }
         $sql = "INSERT INTO faculty (ID,department) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ds", $ID, $department);
+        $stmt->bind_param("is", $ID, $department);
         if (!$stmt->execute()) {
             $stmt->close();
             return false;
@@ -94,9 +94,8 @@
     */
     function createProject($conn, $name, $leadID) {
         $startDate = date("Y-m-d");
-        echo $startDate;
         $stmt = $conn->prepare("INSERT INTO project (startDate, leadID, name) values (?, ?, ?)");
-        $stmt->bind_param("sds", $startDate, $leadID, $name);
+        $stmt->bind_param("sis", $startDate, $leadID, $name);
         if(!$stmt->execute()) {
             $stmt->close();
             return false;
@@ -117,8 +116,17 @@
     *
     * Return (INT): Experiment number of newly created tuple. Or FALSE on fail.
     */
-    function createExperiment($conn, $name, $leadID) {
-        
+    function createExperiment($conn, $projectID, $category) {
+        $sql = "INSERT INTO experiment (projectID,startDate,category) VALUES (?, ?,?)";
+        $stmt = $conn->prepare($sql);
+        $startDate = date("Y-m-d");
+        $stmt->bind_param("iss", $projectID, $startDate, $category);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+        return $conn->insert_id;
     }
 
     /*
@@ -134,7 +142,16 @@
     * Return (INT): ID of the newly created tuple. Or FALSE on fail.
     */
     function createEnvironment($conn, $name, $low, $high, $path) {
-        
+        $sql = "INSERT INTO environment (name,rewardLow,rewardHigh,path) VALUES (?,?,?,?)";
+        $stmt = $conn->prepare($sql);
+        $startDate = date("Y-m-d");
+        $stmt->bind_param("sdds", $name, $low, $high, $path);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+        return $conn->insert_id;
     }
 
     /*
@@ -187,8 +204,19 @@
     *
     * Return (INT): ID of newly created tuple. Or FALSE on fail.
     */
-    function createAgent($mysqli, $action, $observation, $path) {
-        
+    function createAgent($conn, $action, $observation, $path) {
+        $sql = "INSERT INTO agent (actionSpace,observationSpace,path) VALUES (?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("sss", $action, $observation, $path);
+            if(!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 
     /*
@@ -204,7 +232,18 @@
     *
     * Return (INT): ID of newly created tuple. Or FALSE on fail.
     */
-    function createModel($mysqli, $name, $category, $path) {
-        
+    function createModel($conn, $name, $category, $path) {
+        $sql = "INSERT INTO model (name,category,path) VALUES (?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("sss", $name, $category, $path);
+            if(!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
     }
 ?>
