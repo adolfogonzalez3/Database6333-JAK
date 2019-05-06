@@ -13,8 +13,6 @@
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
     function createPerson($conn, $username, $password) {
-        if (userExists($conn, $username))
-            return false;
         $sql = "INSERT INTO person (username, passwordHash, joined) values (?, ?, ?)";
         if ($stmt = $conn->prepare($sql)) {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -43,19 +41,19 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createStudent($conn, $id, $major, $classification) {
-        $sql = "INSERT INTO student VALUES (?, ?, ?)";
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("iss", $id, $major, $classification);
-            if (!$stmt->execute()) {
-                $stmt->close();
-                return false;
-            }
+    function createStudent($conn, $username, $password, $major, $classification) {
+        if (!($ID = createPerson($conn, $username, $password))) {
+            return FALSE;
+        }
+        $sql = "INSERT INTO student (ID,major,classification) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $ID, $major, $classification);
+        if (!$stmt->execute()) {
             $stmt->close();
-            return $conn->insert_id;
-        } else {
             return false;
         }
+        $stmt->close();
+        return $ID;
     }
 
     /*
@@ -69,19 +67,19 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createFaculty($conn, $id, $department) {
-        $sql = "INSERT INTO faculty VALUES (?, ?)";
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("is", $id, $department);
-            if (!$stmt->execute()) {
-                $stmt->close();
-                return false;
-            }
+    function createFaculty($conn, $username, $password, $department) {
+        if (!($ID = createPerson($conn, $username, $password))) {
+            return FALSE;
+        }
+        $sql = "INSERT INTO faculty (ID,department) VALUES (?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ds", $ID, $department);
+        if (!$stmt->execute()) {
             $stmt->close();
-            return $conn->insert_id;
-        } else {
             return false;
         }
+        $stmt->close();
+        return $ID;
     }
 
     /*
@@ -94,18 +92,17 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createProject($conn, $name, $leadID, $startDate, $endDate) {
-        if ($stmt = $conn->prepare("INSERT INTO project (startDate, endDate, leadID, name) values (?, ?, ?, ?)")) {
-            $stmt->bind_param("ssss", $startDate, $endDate, $leadID, $name);
-            if(!$stmt->execute()) {
-                $stmt->close();
-                return false;
-            }
+    function createProject($conn, $name, $leadID) {
+        $startDate = date("Y-m-d");
+        echo $startDate;
+        $stmt = $conn->prepare("INSERT INTO project (startDate, leadID, name) values (?, ?, ?)");
+        $stmt->bind_param("sds", $startDate, $leadID, $name);
+        if(!$stmt->execute()) {
             $stmt->close();
-            return $conn->insert_id;
-        } else {
             return false;
         }
+        $stmt->close();
+        return $conn->insert_id;
     }
 
     /*
