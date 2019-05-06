@@ -105,10 +105,12 @@ while($row = $rows->fetch_row()) {
             $name = $_POST['name'];
             $category = $_POST['category'];
             $location = $_POST['location'];
+            $FacultyID = $_SESSION['user_id'];
             if ($conn = DB_CONNECT()) {
                 $ID = createEquipment($conn, $name, $category, $location);
+                assignEquipmentToFaculty($conn, $ID, $FacultyID);
                 if ($ID != FALSE)
-                    echo "Student created successfully!";
+                    echo "Equipment created successfully!";
             } else {
                 echo "Something went wrong...";
             }
