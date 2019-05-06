@@ -57,4 +57,16 @@ function getUserProjects($conn, $id) {
     return $results;
 }
 
+function getUserExperiments($conn, $id) {
+    $stmt = $conn->prepare("SELECT E.ProjectID, experimentNo, startDate, category FROM experiment E, workson W WHERE E.ProjectID = W.ProjectID and W.UserID = ?");
+    $stmt->bind_param("i", $id);
+    if (!$stmt->execute()) {
+        $stmt->close();
+        return false;
+    }
+    $results = $stmt->get_result();
+    $stmt->close();
+    return $results;
+}
+
 ?>
