@@ -2,6 +2,7 @@
 require_once 'Functions/ConnectionFunctionSet.php';
 require_once 'Functions/ValidationFunctionSet.php';
 require_once 'Functions/UpdateFunctionSet.php';
+require_once 'Functions/RetrievalFunctionSet.php';
 
 if(!isset($_SESSION)) {
     session_start();
@@ -91,13 +92,11 @@ if ($mysqli = DB_CONNECT()) {
 
         if (isset($_POST['startDate'], $_POST['endDate'], $_POST['leadID'], $_POST['name'])) {
             $name = $_POST['name'];
-            $leadID = $_POST['leadID'];
-            echo $leadID;
             $startDate = $_POST['startDate'];
             $endDate = $_POST['endDate'];
             if ($conn = DB_CONNECT()) {
+                $leadID = getUserByName($conn, $_POST['leadID'])[0];
                 $ID = createProject($conn, $name, $leadID, $startDate, $endDate);
-                echo $ID;
                 if ($ID != FALSE)
                     echo "Project created successfully!";
                 else {
