@@ -9,8 +9,31 @@
  */
 function checkExist($conn, $name, $ID)
 {
-    $Q = $conn->query("select * from ".$name." where ID=".$ID);
-    return !empty($Q);
+    $sql = "select * from ? where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sd", $name, $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function isPerson($conn, $ID)
+{
+    $sql = "select * from person where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
 }
 
 /**
@@ -22,7 +45,138 @@ function checkExist($conn, $name, $ID)
  */
 function isStudent($conn, $ID)
 {
-    return checkExist($conn, 'student', $ID);
+    $sql = "select * from student where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function isFaculty($conn, $ID)
+{
+    $sql = "select * from faculty where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function projectExists($conn, $ID)
+{
+    $sql = "select * from project where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Check if experiment exists.
+ * 
+ * Checks experiment table for existence.
+ */
+
+ function experimentExists($conn, $projectID, $experimentNo)
+ {
+    $sql = "select * from experiment where ProjectID=? and experimentNo=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("dd", $projectID, $experimentNo);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+ }
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function environmentExists($conn, $ID)
+{
+    $sql = "select * from environment where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function equipmentExists($conn, $ID)
+{
+    $sql = "select * from equipment where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function agentExists($conn, $ID)
+{
+    $sql = "select * from agent where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
+}
+
+/**
+ * Checks if ID belongs to student.
+ * 
+ * Checks if a person ID belongs to a student.
+ * 
+ * Return (BOOL): TRUE if ID belongs to student else FALSE
+ */
+function modelExists($conn, $ID)
+{
+    $sql = "select * from model where ID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("d", $ID);
+    $stmt->execute();
+    $Q = $stmt->get_result();
+    $stmt->close();
+    return $Q->num_rows != 0;
 }
 
 /**
@@ -134,7 +288,7 @@ function userExists($conn, $username) {
     }
 }
 
-function isStudent($conn, $username) {
+function isStudentByName($conn, $username) {
     $sql = "SELECT username FROM person P JOIN student S ON(P.id = S.id)";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
