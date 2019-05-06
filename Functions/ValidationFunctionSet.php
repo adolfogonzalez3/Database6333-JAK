@@ -195,7 +195,7 @@ function login($conn, $username, $password) {
         $stmt->fetch();
         if ($stmt->num_rows == 1) {
             if (password_verify($password, $db_password)) {
-                if (isStudent($conn, $username)) {
+                if (isStudent($conn, $user_id)) {
                     $_SESSION['user_type'] = 'student';
                 } else {
                     $_SESSION['user_type'] = 'faculty';

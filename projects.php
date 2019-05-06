@@ -3,8 +3,6 @@ require_once 'Functions/ConnectionFunctionSet.php';
 require_once 'Functions/ValidationFunctionSet.php';
 require_once 'Functions/RetrievalFunctionSet.php';
 
-session_start();
-
 if(!isset($_SESSION)) {
     session_start();
 }
@@ -14,8 +12,6 @@ if ($conn = DB_CONNECT()) {
         header("Location: index.php");
     }
 }
-
-$projects = getUserProjects($conn, $_SESSION['user_id']);
 ?>
 
 <html>
@@ -63,16 +59,6 @@ $projects = getUserProjects($conn, $_SESSION['user_id']);
         </table>
         
         <script type="text/javascript">
-            var projects = <?php echo json_encode($projects); ?>;
-            var selectElement = document.getElementById('projects');
-            var i;
-            for (i = 0; i < projects.length; i++) {
-                var o = document.createElement('option');
-                o.setAttribute('value', projects[i]);
-                o.innerHTML = projects[i];
-                selectElement.appendChild(o);
-            }
-            
             function homePage() {
                 // Need to distinguish between Students and Faculty
                 // Probably can make a session cookie or something to handle that

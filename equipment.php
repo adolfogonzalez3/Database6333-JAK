@@ -2,7 +2,16 @@
     <?php
         require_once 'Functions/RetrievalFunctionSet.php';
         require_once 'Functions/ConnectionFunctionSet.php';
-        session_start();
+        require_once 'Functions/ValidationFunctionSet.php';
+        if(!isset($_SESSION)) {
+            session_start();
+        }
+
+        if ($conn = DB_CONNECT()) {
+            if (!login_check($conn)) {
+                header("Location: index.php");
+            }
+        }
     ?>
     <head>
         <title>Website Title</title>
@@ -10,6 +19,8 @@
     <body>
         <h1>JAK</h1>
         <h2>Equipment Page</h2>
+        <button onclick="homePage()">Home Page</button>
+        <br><br>
         <?php
             $conn = DB_CONNECT();
             $ID = $_SESSION['user_id'];
@@ -42,5 +53,12 @@
             }
         ?>
         </table>
+        <script type="text/javascript">
+            function homePage() {
+                // Need to distinguish between Students and Faculty
+                // Probably can make a session cookie or something to handle that
+                window.location.href = "faculty.php";
+            }
+        </script>
     </body>
 </html>
