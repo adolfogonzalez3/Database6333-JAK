@@ -27,5 +27,12 @@
             var_dump($results);
             //$this->assertTrue(isStudent($this->_conn, $ID));
         }
+
+        public function testGetAllEquipmentOwnedByUser()
+        {
+            $EID = createEquipment($this->_conn, "test", 0, "place");
+            $FID = createFaculty($this->_conn, "test", "password", "CS");
+            
+        }
     }
 ?>

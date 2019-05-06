@@ -245,4 +245,23 @@
             return false;
         }
     }
+
+
+    /**
+     * Assign equipment to faculty.
+     */
+    function assignEquipmentToFaculty($conn, $EquipmentID, $FacultyID) {
+        $sql = "INSERT INTO EquipmentBelongsTo (EquipmentID,UserID) VALUES (?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("ii", $EquipmentID, $FacultyID);
+            if(!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
+    }
 ?>

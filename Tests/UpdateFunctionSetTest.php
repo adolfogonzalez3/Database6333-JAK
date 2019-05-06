@@ -81,5 +81,13 @@
             $ID = createModel($this->_conn, "test", 0, "some/path");
             $this->assertTrue(modelExists($this->_conn, $ID));
         }
+
+        public function testAssignEquipmentToFaculty()
+        {
+            $FID = createFaculty($this->_conn, "test", "password", "CS");
+            $EID = createEquipment($this->_conn, "test", 0, "place");
+            assignEquipmentToFaculty($this->_conn, $EID, $FID);
+            
+        }
     }
 ?>

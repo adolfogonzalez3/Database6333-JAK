@@ -30,5 +30,13 @@
             $ID = createFaculty($this->_conn, "test", "password", "CS");
             $this->assertFalse(isStudent($this->_conn, $ID));
         }
+
+        public function testIsEquipmentAssignedToUser()
+        {
+            $FID = createFaculty($this->_conn, "test", "password", "CS");
+            $EID = createEquipment($this->_conn, "test", 0, "place");
+            assignEquipmentToFaculty($this->_conn, $EID, $FID);
+            $this->assertTrue(isEquipmentAssignedToUser($this->_conn, $EID, $FID));
+        }
     }
 ?>

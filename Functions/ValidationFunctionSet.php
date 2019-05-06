@@ -299,4 +299,21 @@ function isStudentByName($conn, $username) {
     }
     return false;
 }
+
+/**
+ * Checks if the equipment is assigned to the user
+ */
+function isEquipmentAssignedToUser($conn, $equipmentID, $userID) {
+    $sql = "SELECT * from EquipmentBelongsTo where EquipmentID=? and userID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $equipmentID, $userID);
+    if(!$stmt->execute()) {
+        $stmt->close();
+        return false;
+    }
+    $results = $stmt->get_result();
+    $stmt->close();
+    return $results->num_rows != 0;
+}
+
 ?>
