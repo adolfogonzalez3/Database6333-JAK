@@ -51,6 +51,9 @@ if ($mysqli = DB_CONNECT()) {
         <?php
         echo "<div>Welcome, $username!</div><br><br>";
         ?>
+        <form action="equipment.php">
+            <button>View Equipment</button> <br>
+        </form>
         <button onclick="createStudent()">Create Student</button> <br>
         <button onclick="createFaculty()">Create Faculty</button> <br>
         <button onclick="createProject()">Create Project</button> <br>
