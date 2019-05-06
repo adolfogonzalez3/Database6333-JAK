@@ -15,10 +15,6 @@
             $ID = $_SESSION['user_id'];
             $rows = getAllEquipmentOwnedByUser($conn, $ID);
             $finfo = $rows->fetch_fields();
-
-            foreach ($finfo as $val) {
-                printf("Name:      %s\n",   $val->name);
-            }
         ?>
         <table>
         <tr>
