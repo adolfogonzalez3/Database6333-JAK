@@ -14,7 +14,6 @@
             $conn = DB_CONNECT();
             $ID = $_SESSION['user_id'];
             $rows = getAllEquipmentOwnedByUser($conn, $ID);
-            var_dump($rows);
             $finfo = $rows->fetch_fields();
 
             foreach ($finfo as $val) {
