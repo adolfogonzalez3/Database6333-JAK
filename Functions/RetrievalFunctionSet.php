@@ -46,15 +46,15 @@ function getAllUsers($conn) {
 }
 
 function getUserProjects($conn, $id) {
-    $projects = array();
-    $stmt = $conn->prepare("SELECT name FROM workson W join project P ON (W.projectID = P.id) WHERE W.userid = ?");
+    $stmt = $conn->prepare("SELECT ID, startDate, endDate, leadID, name FROM workson W, project P WHERE W.projectID = P.id AND W.userid = ?");
     $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->bind_result($projectName);
-    while ($stmt->fetch()) {
-        array_push($projects, $projectName);
+    if (!$stmt->execute()) {
+        $stmt->close();
+        return false;
     }
-    return $projects;
+    $results = $stmt->get_result();
+    $stmt->close();
+    return $results;
 }
 
 ?>
