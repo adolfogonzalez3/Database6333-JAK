@@ -22,23 +22,7 @@ if ($_SESSION['user_type'] == 'student')
     header("Location: student.php");
  
 $username = $_SESSION['username'];
-
-// Gets the list of users
-if ($mysqli = DB_CONNECT()) {
-    if ($stmt = $mysqli->prepare("SELECT username FROM person")) {
-        $users = array();
-        $stmt->execute();
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            array_push($users, $row['username']);
-        }
-        $stmt->close();
-    } else {
-        exit('Statement failed');
-    }
-} else {
-    exit('Database failed to connect');
-}
+$users = getAllUsers($conn);
 ?>
 
 <html>

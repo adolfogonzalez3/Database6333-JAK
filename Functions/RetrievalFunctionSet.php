@@ -14,4 +14,19 @@ function getUserByName($conn, $name) {
     return $results->fetch_row();
 }
 
+function getAllUsers($conn) {
+    $stmt = $conn->prepare("SELECT username FROM person");
+    $users = array();
+    if (!$stmt->execute()) {
+        $stmt->close();
+        return false;
+    }
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        array_push($users, $row['username']);
+    }
+    $stmt->close();
+    return $users;
+}
+
 ?>
