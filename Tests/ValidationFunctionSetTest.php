@@ -19,12 +19,6 @@
             unset($this->_conn);
         }
 
-        public function testCheckExists_exists()
-        {
-            $ID = createPerson($this->_conn, "test", "password");
-            $this->assertTrue(checkExist($this->_conn, "Person", $ID));
-        }
-
         public function testIsStudent_true()
         {
             $ID = createStudent($this->_conn, "test", "password", "CS", 1);
@@ -33,7 +27,7 @@
 
         public function testIsStudent_false()
         {
-            $ID = createFaculty($this->_conn, "test", "password", "CS", 1);
+            $ID = createFaculty($this->_conn, "test", "password", "CS");
             $this->assertFalse(isStudent($this->_conn, $ID));
         }
     }
