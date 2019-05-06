@@ -29,4 +29,16 @@ function getAllUsers($conn) {
     return $users;
 }
 
+function getUserProjects($conn, $id) {
+    $projects = array();
+    $stmt = $conn->prepare("SELECT name FROM workson W join project P ON (W.projectID = P.id) WHERE W.userid = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->bind_result($projectName);
+    while ($stmt->fetch()) {
+        array_push($projects, $projectName);
+    }
+    return $projects;
+}
+
 ?>
