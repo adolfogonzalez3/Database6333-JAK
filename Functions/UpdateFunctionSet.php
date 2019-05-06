@@ -92,10 +92,9 @@
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
     */
-    function createProject($conn, $name, $leadID) {
-        $startDate = date("Y-m-d");
-        $stmt = $conn->prepare("INSERT INTO project (startDate, leadID, name) values (?, ?, ?)");
-        $stmt->bind_param("sis", $startDate, $leadID, $name);
+    function createProject($conn, $name, $leadID, $startDate, $endDate) {
+        $stmt = $conn->prepare("INSERT INTO project (startDate,endDate,leadID,name) values (?,?,?,?)");
+        $stmt->bind_param("ssis", $startDate, $endDate, $leadID, $name);
         if(!$stmt->execute()) {
             $stmt->close();
             return false;

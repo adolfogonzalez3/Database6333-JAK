@@ -41,15 +41,19 @@
 
         public function testCreateProject()
         {
+            $startDate = date("Y-m-d");
+            $endDate = date("Y-m-d");
             $ID = createFaculty($this->_conn, "test", "password", "CS");
-            $ID = createProject($this->_conn, "test", $ID);
+            $ID = createProject($this->_conn, "test", $ID, $startDate, $endDate);
             $this->assertTrue(projectExists($this->_conn, $ID));
         }
 
         public function testCreateExperiment()
         {
+            $startDate = date("Y-m-d");
+            $endDate = date("Y-m-d");
             $ID = createFaculty($this->_conn, "test", "password", "CS");
-            $PID = createProject($this->_conn, "test", $ID);
+            $PID = createProject($this->_conn, "test", $ID, $startDate, $endDate);
             $ExperimentNo = CreateExperiment($this->_conn, $PID, 0, 0);
             $this->assertTrue(experimentExists($this->_conn, $PID, $ExperimentNo));
         }
