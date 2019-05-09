@@ -265,6 +265,24 @@
         }
     }
 
+    /**
+     * Assign Person to Project.
+     */
+    function assignUserToProject($conn, $PersonID, $ProjectID) {
+        $sql = "INSERT INTO workson (UserID,ProjectID) VALUES (?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("ii", $PersonID, $ProjectID);
+            if(!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+            return $conn->insert_id;
+        } else {
+            return false;
+        }
+    }
+
     /*
     * Create a Faculty member given the required fields.
     * 

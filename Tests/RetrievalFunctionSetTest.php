@@ -55,12 +55,29 @@
         {
             $startDate = date("Y-m-d");
             $endDate = date("Y-m-d");
-            $ID = createFaculty($this->_conn, "test", "password", "CS");
+            $FID = createFaculty($this->_conn, "test", "password", "CS");
             for($i = 0; $i < 10; $i++){
-                $ID = createProject($this->_conn, "test".$i, $ID, $startDate, $endDate);
+                $PID = createProject($this->_conn, "test".$i, $FID, $startDate, $endDate);
+                assignUserToProject($this->_conn, $FID, $PID);
             }
-            $projects = getAllUsers($this->_conn);
+            $projects = getUserProjects($this->_conn, $FID)->fetch_all();
             $this->assertTrue(count($projects) >= 10);
+        }
+
+        public function testGetUserExperiments_atleastGreaterThanOrEqualTo()
+        {
+            $startDate = date("Y-m-d");
+            $endDate = date("Y-m-d");
+            $FID = createFaculty($this->_conn, "test", "password", "CS");
+            for($i = 0; $i < 10; $i++){
+                $PID = createProject($this->_conn, "test".$i, $FID, $startDate, $endDate);
+                assignUserToProject($this->_conn, $FID, $PID);
+                for($j = 0; $j < 10; $j++){
+                    CreateExperiment($this->_conn, $PID, 0, 0);
+                }
+            }
+            $experiments = getUserExperiments($this->_conn, $FID)->fetch_all();
+            $this->assertTrue(count($experiments) >= 10);
         }
     }
 ?>
