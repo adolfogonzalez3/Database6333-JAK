@@ -21,6 +21,7 @@ if ($conn = DB_CONNECT()) {
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
+        <div class="main">
         <h1>JAK</h1>
         <h2>Projects Page</h2>
         
@@ -41,5 +42,6 @@ if ($conn = DB_CONNECT()) {
                 window.location.href = "faculty.php";
             }
         </script>
+        </div>
     </body>
 </html>

@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
+        <div class="main">
         <h1>JAK</h1>
         <h2>Equipment Page</h2>
         <button onclick="homePage()">Home Page</button>
@@ -37,5 +38,6 @@
                 window.location.href = "faculty.php";
             }
         </script>
+        </div>
     </body>
 </html>

@@ -2,6 +2,7 @@
 require_once 'Functions/ConnectionFunctionSet.php';
 require_once 'Functions/ValidationFunctionSet.php';
 require_once 'Functions/RetrievalFunctionSet.php';
+require_once 'Functions/ConstructionFunctionSet.php';
 
 if(!isset($_SESSION)) {
     session_start();
@@ -20,6 +21,7 @@ if ($conn = DB_CONNECT()) {
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
+        <div class="main">
         <h1>JAK</h1>
         <h2>Experiments Page</h2>
         
@@ -39,5 +41,6 @@ if ($conn = DB_CONNECT()) {
                 window.location.href = "faculty.php";
             }
         </script>
+        </div>
     </body>
 </html>
