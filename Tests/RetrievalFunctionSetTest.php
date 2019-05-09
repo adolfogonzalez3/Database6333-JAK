@@ -29,9 +29,38 @@
 
         public function testGetAllEquipmentOwnedByUser()
         {
-            $EID = createEquipment($this->_conn, "test", 0, "place");
+            $equipment = array();
+            for($i = 0; $i < 10; $i++){
+                $ID = createEquipment($this->_conn, "test".$i, 0, "place");
+                array_push($equipment, $ID);
+            }
             $FID = createFaculty($this->_conn, "test", "password", "CS");
-            
+            foreach($equipment as $EID) {
+                assignEquipmentToFaculty($this->_conn, $EID, $FID);
+            }
+            $results = getAllEquipmentOwnedByUser($this->_conn, $FID);
+            $this->assertTrue($results->num_rows == 10);
+        }
+
+        public function testGetAllUsers_atleastGreaterThanOrEqualTo()
+        {
+            for($i = 0; $i < 10; $i++){
+                createStudent($this->_conn, "test".$i, "password", "CS", 1);
+            }
+            $users = getAllUsers($this->_conn);
+            $this->assertTrue(count($users) >= 10);
+        }
+
+        public function testGetUserProjects_atleastGreaterThanOrEqualTo()
+        {
+            $startDate = date("Y-m-d");
+            $endDate = date("Y-m-d");
+            $ID = createFaculty($this->_conn, "test", "password", "CS");
+            for($i = 0; $i < 10; $i++){
+                $ID = createProject($this->_conn, "test".$i, $ID, $startDate, $endDate);
+            }
+            $projects = getAllUsers($this->_conn);
+            $this->assertTrue(count($projects) >= 10);
         }
     }
 ?>

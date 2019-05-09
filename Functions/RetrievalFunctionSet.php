@@ -26,8 +26,6 @@ function getAllEquipmentOwnedByUser($conn, $ID) {
     $results = $stmt->get_result();
     $stmt->close();
     return $results;
-    //$ID = createFaculty($this->_conn, "test", "password", "CS");
-    //$ID = createEquipment($this->_conn, "test", 0, "place");
 }
 
 function getAllUsers($conn) {
