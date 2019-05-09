@@ -1,27 +1,44 @@
 <?php
 
+/**
+ * Add table tag to string.
+ */
+function addHTMLTable($html) {
+    return "<table>".$html."</table>";
+}
+
+/**
+ * Add table row tag to string.
+ */
+function addHTMLTableRow($html) {
+    return "<tr>".$html."</tr>";
+}
+
+/**
+ * Add table cell tag to string.
+ */
+function addHTMLTableCell($html) {
+    return "<th>".$html."</th>";
+}
 
 /**
  * Builds a table in HTML from a mysql result set.
  */
 function buildTableFromSet($set) {
-    $result = "";
     $finfo = $set->fetch_fields();
-    $result .= "<table>\n";
-    $result .= "<tr>\n";
+    $result = "";
     foreach ($finfo as $val) {
-        $result .= "<th>".$val->name."</th>\n";
+        $result .= addHTMLTableCell($val->name);
     }
-    $result .= "</tr>\n";
+    $result .= addHTMLTableRow($result);
     while($row = $set->fetch_row()) {
-        $result .= "<tr>\n";
+        $rowHTML = "";
         foreach ($row as $val) {
-            $result .= "<th>".$val."</th>\n";
+            $rowHTML .= addHTMLTableCell($val);
         }
-        $result .= "</tr>\n";
+        $result .= addHTMLTableRow($rowHTML);
     }
-    $result .= "</table>\n";
-    return $result;
+    return addHTMLTable($result);
 }
 
 ?>
