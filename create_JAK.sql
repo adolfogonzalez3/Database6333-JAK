@@ -12,20 +12,20 @@ create table student (
     ID INT NOT NULL,
     major varchar(32), classification INT,
     PRIMARY KEY (ID),
-    FOREIGN KEY (ID) REFERENCES person (ID));
+    FOREIGN KEY (ID) REFERENCES person (ID) ON DELETE CASCADE);
 
 create table faculty (
     ID INT NOT NULL,
     department varchar(32),
     PRIMARY KEY (ID),
-    FOREIGN KEY (ID) REFERENCES person(ID));
+    FOREIGN KEY (ID) REFERENCES person(ID) ON DELETE CASCADE);
 
 create table project (
     ID INT NOT NULL AUTO_INCREMENT,
     startDate DATE, endDate DATE, leadID INT,
     name varchar(64),
     PRIMARY KEY (ID),
-    FOREIGN KEY (leadID) REFERENCES person(ID));
+    FOREIGN KEY (leadID) REFERENCES person(ID) ON DELETE CASCADE);
                       
 create table experiment (
     experimentNo INT NOT NULL AUTO_INCREMENT,
@@ -33,7 +33,7 @@ create table experiment (
     startDate DATE,
     category INT,
     PRIMARY KEY (experimentNo, ProjectID),
-    FOREIGN KEY (ProjectID) REFERENCES project(ID));
+    FOREIGN KEY (ProjectID) REFERENCES project(ID) ON DELETE CASCADE);
                          
 create table environment (
     ID INT NOT NULL AUTO_INCREMENT,
@@ -61,30 +61,30 @@ create table Model (
 create table EquipmentBelongsTo (
     equipmentID INT NOT NULL,
     userID INT NOT NULL,
-    FOREIGN KEY (equipmentID) REFERENCES equipment(ID),
-    FOREIGN KEY (userID) REFERENCES Faculty(ID)
+    FOREIGN KEY (equipmentID) REFERENCES equipment(ID) ON DELETE CASCADE,
+    FOREIGN KEY (userID) REFERENCES Faculty(ID) ON DELETE CASCADE
 );
 
 create table agentUsesmodel (agentID INT, modelID INT,
-                             FOREIGN KEY (agentID) REFERENCES agent(ID),
-                             FOREIGN KEY (modelID) REFERENCES Model(ID));
+                             FOREIGN KEY (agentID) REFERENCES agent(ID) ON DELETE CASCADE,
+                             FOREIGN KEY (modelID) REFERENCES Model(ID) ON DELETE CASCADE);
 
 create table workson (UserID INT, ProjectID INT,
-                      FOREIGN KEY (UserID) REFERENCES person(ID),
-                      FOREIGN KEY (ProjectID) REFERENCES project(ID));
+                      FOREIGN KEY (UserID) REFERENCES person(ID) ON DELETE CASCADE,
+                      FOREIGN KEY (ProjectID) REFERENCES project(ID) ON DELETE CASCADE);
 
 create table experimentusesenvironment (ProjectID INT, experimentID INT, environmentID INT,
-                                        FOREIGN KEY (ProjectID, experimentID) REFERENCES experiment(ProjectID, experimentNo),
-                                        FOREIGN KEY (environmentID) REFERENCES environment(ID));
+                                        FOREIGN KEY (ProjectID, experimentID) REFERENCES experiment(ProjectID, experimentNo) ON DELETE CASCADE,
+                                        FOREIGN KEY (environmentID) REFERENCES environment(ID) ON DELETE CASCADE);
 
 create table environmenthasspace (EnvironmentID INT, space varchar(64), isAction BINARY,
-                                  FOREIGN KEY (EnvironmentID) REFERENCES environment(ID));
+                                  FOREIGN KEY (EnvironmentID) REFERENCES environment(ID) ON DELETE CASCADE);
 
 create table agentparticipates (projectID INT, experimentNo INT, agentID INT,
-                                FOREIGN KEY (projectID, experimentNo) REFERENCES experiment(ProjectID, experimentNo));
+                                FOREIGN KEY (projectID, experimentNo) REFERENCES experiment(ProjectID, experimentNo) ON DELETE CASCADE);
 
 create table result (ProjectID INT, experimentNo INT, completed BINARY, path varchar(256),
                      PRIMARY KEY (ProjectID, experimentNo),
-                     FOREIGN KEY (ProjectID, experimentNo) REFERENCES experiment(ProjectID, experimentNo));
+                     FOREIGN KEY (ProjectID, experimentNo) REFERENCES experiment(ProjectID, experimentNo) ON DELETE CASCADE);
 
 
