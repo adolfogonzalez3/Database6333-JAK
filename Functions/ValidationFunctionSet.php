@@ -83,7 +83,7 @@ function projectExists($conn, $ID)
 {
     $sql = "select * from project where ID=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("d", $ID);
+    $stmt->bind_param("i", $ID);
     $stmt->execute();
     $Q = $stmt->get_result();
     $stmt->close();

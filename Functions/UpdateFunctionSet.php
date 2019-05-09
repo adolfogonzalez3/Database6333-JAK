@@ -314,7 +314,7 @@
     * ID (Int): The ID of the project.
     *
     * Return (INT): ID of the new tuple. Or FALSE on fail.
-    */
+    *
     function deleteProject($conn, $ID) {
         $sql = "DELETE FROM project where ID=?";
         $stmt = $conn->prepare($sql);
@@ -325,5 +325,5 @@
         }
         $stmt->close();
         return true;
-    }
+    }*/
 ?>

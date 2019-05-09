@@ -92,11 +92,11 @@
         {
             $startDate = date("Y-m-d");
             $endDate = date("Y-m-d");
-            $ID = createFaculty($this->_conn, "test", "password", "CS");
-            $ID = createProject($this->_conn, "test", $ID, $startDate, $endDate);
-            $this->assertTrue(projectExists($this->_conn, $ID));
-            deleteProject($this->_conn, $ID);
-            $this->assertFalse(projectExists($this->_conn, $ID));
+            $FID = createFaculty($this->_conn, "test", "password", "CS");
+            $PID = createProject($this->_conn, "test", $FID, $startDate, $endDate);
+            $this->assertTrue(projectExists($this->_conn, $PID));
+            //var_dump(deleteProject($this->_conn, $PID));
+            $this->assertFalse(projectExists($this->_conn, $PID));
         }
     }
 ?>
