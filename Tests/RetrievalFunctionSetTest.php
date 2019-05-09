@@ -5,7 +5,7 @@
     require_once(__DIR__.'/../Functions/UpdateFunctionSet.php');
     require_once(__DIR__.'/../Functions/RetrievalFunctionSet.php');
 
-    class RetrievalFunctionSet extends PHPUnit_Framework_TestCase
+    class RetrievalFunctionSetTest extends PHPUnit_Framework_TestCase
     {
         protected $_conn = null;
      
@@ -23,9 +23,8 @@
         public function testGetUserByName()
         {
             $ID = createStudent($this->_conn, "test", "password", "CS", 1);
-            $results = getUserByName($this->_conn, "test");
-            var_dump($results);
-            //$this->assertTrue(isStudent($this->_conn, $ID));
+            $result = getUserByName($this->_conn, "test");
+            $this->assertTrue(isStudent($this->_conn, $result[0]));
         }
 
         public function testGetAllEquipmentOwnedByUser()
