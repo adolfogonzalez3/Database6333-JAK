@@ -32,16 +32,18 @@ if (isset($_POST['username'], $_POST['password'])) {
 <html>
     <head>
         <title>JAK Login</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
     </head>
     <body>
+        <div class="main">
         <h1>JAK</h1>
         <h2>Login</h2>
         <form method="post" id="loginForm" autocomplete="off">
             <div id="inputName">Username:</div>
-            <input type="text" name="username" id="username" required />
+            <input class="form-input input-login" type="text" name="username" id="username" required />
             <div id="inputName">Password:</div>
-            <input type="password" name="password" id="password" required /><br><br>
-            <input type="submit" value="Login" />
+            <input class="form-input input-login" type="password" name="password" id="password" required /><br><br>
+            <input class="form-input input-submit" type="submit" value="Login" />
         </form>
         <?php
         if (isset($_GET["error"])) {
@@ -51,6 +53,8 @@ if (isset($_POST['username'], $_POST['password'])) {
                 echo '<div class="error">Wrong username or password.</div>';
         }
         ?>
+            
+            </div>
 
     </body>
 </html>

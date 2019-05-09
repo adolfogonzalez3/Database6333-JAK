@@ -21,7 +21,7 @@ if (isset($_POST['logout'])) {
 if ($_SESSION['user_type'] == 'faculty')
     header("Location: faculty.php");
 
-$name = $_SESSION['username'];
+$username = $_SESSION['username'];
 
 $projects = array();
 $conn = DB_CONNECT();
@@ -36,20 +36,24 @@ while($row = $rows->fetch_row()) {
 <html>
     <head>
         <title>Website Title</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
     </head>
     <body>
+        <div class="main">
         <h1>JAK</h1>
         <h2>Student Page</h2>
         <?php
-        echo "<h3>Welcome, $name!</h3>";
+        echo "<div>Welcome, $username!</div>";
         ?>
-        <button onclick="viewProjects()">View Projects</button> <br>
-        <button onclick="createExperiment()">Create Experiment</button> <br>
-        <button onclick="viewExperiments()">View Experiments</button> <br>
-        <form method="post">
-            <input name='logout' hidden />
-            <input type="submit" value="Logout"/>
-        </form>
+        <div class="cv-btns">
+            <form method="post">
+                <input name='logout' hidden />
+                <input class="form-input3 logout" type="submit" value="Logout"/>
+            </form>
+            <button class="form-input input-submit" onclick="viewProjects()">View Projects</button> <br>
+            <button class="form-input input-submit" onclick="createExperiment()">Create Experiment</button> <br>
+            <button class="form-input input-submit" onclick="viewExperiments()">View Experiments</button> <br>
+        </div>
         <br>
         <div id="formDiv"></div>
         <?php
@@ -84,7 +88,7 @@ while($row = $rows->fetch_row()) {
                 formDiv.appendChild(form);
                 
                 var e1 = document.createElement('text');
-                e1.innerHTML = "Create Experiment <br>";
+                e1.innerHTML = "<br>Create Experiment <br>";
                 form.appendChild(e1);
                 
                 var e2 = document.createElement('text');
@@ -122,6 +126,7 @@ while($row = $rows->fetch_row()) {
                 var e9 = document.createElement('input');
                 e9.setAttribute("type", "submit");
                 e9.setAttribute("value", "Submit");
+                e9.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e9);
             }
             
@@ -133,5 +138,6 @@ while($row = $rows->fetch_row()) {
                 window.location.href = "projects.php";
             }
         </script>
+        </div>
     </body>
 </html>

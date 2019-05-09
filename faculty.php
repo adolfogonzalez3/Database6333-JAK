@@ -35,25 +35,29 @@ while($row = $rows->fetch_row()) {
 <html>
     <head>
         <title>Website Title</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
     </head>
     <body>
+        <div class="main">
         <h1>JAK</h1>
         <h2>Faculty Page</h2>
         <?php
-        echo "<div>Welcome, $username!</div><br><br>";
+        echo "<div>Welcome, $username!</div>";
         ?>
-        <button onclick="createStudent()">Create Student</button> <br>
-        <button onclick="createFaculty()">Create Faculty</button> <br>
-        <button onclick="createProject()">Create Project</button> <br>
-        <button onclick="viewProjects()">View Projects</button> <br>
-        <button onclick="createExperiment()">Create Experiment</button> <br>
-        <button onclick="viewExperiments()">View Experiments</button> <br>
-        <button onclick="createEquipment()">Create Equipment</button> <br>
-        <button onclick="viewEquipment()">View Equipment</button> <br>
-        <form method="post">
+        <div class="cv-btns">
+            <form method="post">
             <input name='logout' hidden />
-            <input type="submit" value="Logout"/>
-        </form>
+            <input class="form-input3 logout" type="submit" value="Logout"/>
+            </form>
+            <button class="form-input input-submit" onclick="createStudent()">Create Student</button> <br>
+            <button class="form-input input-submit" onclick="createFaculty()">Create Faculty</button> <br>
+            <button class="form-input input-submit" onclick="createProject()">Create Project</button> <br>
+            <button class="form-input input-submit" onclick="viewProjects()">View Projects</button> <br>
+            <button class="form-input input-submit" onclick="createExperiment()">Create Experiment</button> <br>
+            <button class="form-input input-submit" onclick="viewExperiments()">View Experiments</button> <br>
+            <button class="form-input input-submit" onclick="createEquipment()">Create Equipment</button> <br>
+            <button class="form-input input-submit" onclick="viewEquipment()">View Equipment</button> <br>
+        </div>
         <br>
         <div id="formDiv"></div>
         <?php
@@ -149,7 +153,7 @@ while($row = $rows->fetch_row()) {
                 formDiv.appendChild(form);
                 
                 var e1 = document.createElement('text');
-                e1.innerHTML = "Create Student <br>";
+                e1.innerHTML = "<br>Create Student <br>";
                 form.appendChild(e1);
                 
                 var e2 = document.createElement('text');
@@ -213,6 +217,7 @@ while($row = $rows->fetch_row()) {
                 var e13 = document.createElement('input');
                 e13.setAttribute("type", "submit");
                 e13.setAttribute("value", "Submit");
+                e13.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e13);
             }
             
@@ -230,7 +235,7 @@ while($row = $rows->fetch_row()) {
                 formDiv.appendChild(form);
                 
                 var e1 = document.createElement('text');
-                e1.innerHTML = "Create Faculty <br>";
+                e1.innerHTML = "<br>Create Faculty <br>";
                 form.appendChild(e1);
                 
                 var e2 = document.createElement('text');
@@ -280,6 +285,7 @@ while($row = $rows->fetch_row()) {
                 var e11 = document.createElement('input');
                 e11.setAttribute("type", "submit");
                 e11.setAttribute("value", "Submit");
+                e11.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e11);
                 
                 e7.onchange = validatePassword;
@@ -300,7 +306,7 @@ while($row = $rows->fetch_row()) {
                 formDiv.appendChild(form);
                 
                 var e1 = document.createElement('text');
-                e1.innerHTML = "Create Project <br>";
+                e1.innerHTML = "<br>Create Project <br>";
                 form.appendChild(e1);
                 
                 var e2 = document.createElement('text');
@@ -354,6 +360,7 @@ while($row = $rows->fetch_row()) {
                 var e11 = document.createElement('input');
                 e11.setAttribute("type", "submit");
                 e11.setAttribute("value", "Submit");
+                e11.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e11);
             }
             
@@ -371,7 +378,7 @@ while($row = $rows->fetch_row()) {
                 formDiv.appendChild(form);
                 
                 var e1 = document.createElement('text');
-                e1.innerHTML = "Create Equipment <br>";
+                e1.innerHTML = "<br>Create Equipment <br>";
                 form.appendChild(e1);
                 
                 var e2 = document.createElement('text');
@@ -415,6 +422,7 @@ while($row = $rows->fetch_row()) {
                 var e9 = document.createElement('input');
                 e9.setAttribute("type", "submit");
                 e9.setAttribute("value", "Submit");
+                e9.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e9);
             }
             
@@ -440,7 +448,7 @@ while($row = $rows->fetch_row()) {
                 formDiv.appendChild(form);
                 
                 var e1 = document.createElement('text');
-                e1.innerHTML = "Create Experiment <br>";
+                e1.innerHTML = "<br>Create Experiment <br>";
                 form.appendChild(e1);
                 
                 var e2 = document.createElement('text');
@@ -478,6 +486,7 @@ while($row = $rows->fetch_row()) {
                 var e9 = document.createElement('input');
                 e9.setAttribute("type", "submit");
                 e9.setAttribute("value", "Submit");
+                e9.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e9);
             }
             
@@ -495,5 +504,6 @@ while($row = $rows->fetch_row()) {
                 }
             }
         </script>
+        </div>
     </body>
 </html>
