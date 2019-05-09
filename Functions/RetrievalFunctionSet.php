@@ -67,4 +67,17 @@ function getUserExperiments($conn, $id) {
     return $results;
 }
 
+function getProjectIDByName($conn, $name) {
+    $stmt = $conn->prepare("SELECT id FROM project where name=?");
+    $stmt->bind_param("s", $name);
+    if (!$stmt->execute()) {
+        $stmt->close();
+        return false;
+    }
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    return $row['id'];
+}
+
 ?>

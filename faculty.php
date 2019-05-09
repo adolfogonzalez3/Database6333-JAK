@@ -52,6 +52,7 @@ while($row = $rows->fetch_row()) {
             <button class="form-input input-submit" onclick="createStudent()">Create Student</button> <br>
             <button class="form-input input-submit" onclick="createFaculty()">Create Faculty</button> <br>
             <button class="form-input input-submit" onclick="createProject()">Create Project</button> <br>
+            <button class="form-input input-submit" onclick="deleteProject()">Delete Project</button> <br>
             <button class="form-input input-submit" onclick="viewProjects()">View Projects</button> <br>
             <button class="form-input input-submit" onclick="createExperiment()">Create Experiment</button> <br>
             <button class="form-input input-submit" onclick="viewExperiments()">View Experiments</button> <br>
@@ -59,7 +60,8 @@ while($row = $rows->fetch_row()) {
             <button class="form-input input-submit" onclick="viewEquipment()">View Equipment</button> <br>
         </div>
         <br>
-        <div id="formDiv"></div>
+            <div id="formDiv"></div>
+            <div>
         <?php
         if (isset($_POST['name'], $_POST['major'], $_POST['classification'], $_POST['pass1'], $_POST['pass2'])) {
             $name = $_POST['name'];
@@ -83,6 +85,8 @@ while($row = $rows->fetch_row()) {
                 $ID = createFaculty($conn, $name, $password, $department);
                 if ($ID != FALSE)
                     echo "Faculty created successfully!";
+                else
+                    echo "Faculty could not be created";
             } else {
                 echo "Something went wrong...";
             }
@@ -95,8 +99,12 @@ while($row = $rows->fetch_row()) {
             if ($conn = DB_CONNECT()) {
                 $leadID = getUserByName($conn, $_POST['leadID'])[0];
                 $ID = createProject($conn, $name, $leadID, $startDate, $endDate);
-                if ($ID != FALSE)
+                if ($ID != FALSE) {
+                    if ($leadID != $_SESSION['user_id']) {
+                        assignUserToProject($conn, $_SESSION['user_id'], $ID);
+                    }
                     echo "Project created successfully!";
+                }
                 else {
                     echo "FAILURE";
                 }
@@ -121,9 +129,10 @@ while($row = $rows->fetch_row()) {
         }
         
         if (isset($_POST['projectID'], $_POST['category'])) {
-            $projectID = $_POST['projectID'];
+            $projectName = $_POST['projectID'];
             $category = $_POST['category'];
             if ($conn = DB_CONNECT()) {
+                $projectID = getProjectIDByName($conn, $projectName);
                 $ID = createExperiment($conn, $projectID, $category);
                 if ($ID != FALSE)
                     echo "Experiment created successfully!";
@@ -133,7 +142,19 @@ while($row = $rows->fetch_row()) {
                 echo "Something went wrong...";
             }
         }
+            
+        if (isset($_POST['deleteProject'], $_POST['projectName'])) {
+            $projectName = $_POST['projectName'];
+            if ($conn = DB_CONNECT()) {
+                $ID = getProjectIDByName($conn, $projectName);
+                echo $ID;
+                echo "hmm..";
+                $ID = deleteProject($conn, $ID);
+                echo "Project deleted successfully";
+            }
+        }
         ?>
+            </div>
         
         <script type="text/javascript">
             var data = <?php echo json_encode($users); ?>;
@@ -219,6 +240,7 @@ while($row = $rows->fetch_row()) {
                 e13.setAttribute("value", "Submit");
                 e13.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e13);
+                window.scrollTo(0,document.body.scrollHeight);
             }
             
             function createFaculty() {
@@ -290,6 +312,7 @@ while($row = $rows->fetch_row()) {
                 
                 e7.onchange = validatePassword;
                 e9.onchange = validatePassword;
+                window.scrollTo(0,document.body.scrollHeight);
             }
             
             function createProject() {
@@ -362,6 +385,7 @@ while($row = $rows->fetch_row()) {
                 e11.setAttribute("value", "Submit");
                 e11.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e11);
+                window.scrollTo(0,document.body.scrollHeight);
             }
             
             function createEquipment() {
@@ -424,6 +448,7 @@ while($row = $rows->fetch_row()) {
                 e9.setAttribute("value", "Submit");
                 e9.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e9);
+                window.scrollTo(0,document.body.scrollHeight);
             }
             
             function viewProjects() {
@@ -488,6 +513,7 @@ while($row = $rows->fetch_row()) {
                 e9.setAttribute("value", "Submit");
                 e9.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e9);
+                window.scrollTo(0,document.body.scrollHeight);
             }
             
             function viewExperiments() {
@@ -502,6 +528,56 @@ while($row = $rows->fetch_row()) {
                 } else {
                     pass2.setCustomValidity('');
                 }
+            }
+            
+            function deleteProject() {
+                var formDiv = document.getElementById("formDiv");
+                if (formDiv.childNodes.length > 0) {
+                    var element = document.getElementById("leForm");
+                    element.parentNode.removeChild(element);
+                }
+                
+                var form = document.createElement('form');
+                form.setAttribute('id', "leForm");
+                form.setAttribute('autocomplete', 'off');
+                form.setAttribute('method', 'POST');
+                formDiv.appendChild(form);
+                
+                var e1 = document.createElement('text');
+                e1.innerHTML = "<br>Delete Project<br>";
+                form.appendChild(e1);
+                
+                var e2 = document.createElement('text');
+                e2.innerHTML = "<br>Choose Project ID: <br>";
+                form.appendChild(e2);
+                
+                var e3 = document.createElement('select');
+                e3.setAttribute('name', 'projectName');
+                e3.setAttribute('required', true);
+                var i;
+                for (i = 0; i < projects.length; i++) {
+                    var o = document.createElement('option');;
+                    o.setAttribute('value', projects[i]);
+                    o.innerHTML = projects[i];
+                    e3.appendChild(o);
+                }
+                form.appendChild(e3);
+                
+                var e8 = document.createElement('text');
+                e8.innerHTML = "<br><br>";
+                form.appendChild(e8);
+                
+                var e10 = document.createElement('input');
+                e10.setAttribute("name", "deleteProject");
+                e10.setAttribute("hidden", true);
+                form.appendChild(e10);
+                
+                var e9 = document.createElement('input');
+                e9.setAttribute("type", "submit");
+                e9.setAttribute("value", "Delete");
+                e9.setAttribute("class", "form-input2 input-submit");
+                form.appendChild(e9);
+                window.scrollTo(0,document.body.scrollHeight);
             }
         </script>
         </div>

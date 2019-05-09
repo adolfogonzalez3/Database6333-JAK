@@ -100,7 +100,9 @@
             return false;
         }
         $stmt->close();
-        return $conn->insert_id;
+        $id = $conn->insert_id;
+        assignUserToProject($conn, $leadID, $id);
+        return $id;
     }
 
     /*
