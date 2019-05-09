@@ -30,7 +30,7 @@ function buildTableFromSet($set) {
     foreach ($finfo as $val) {
         $result .= addHTMLTableCell($val->name);
     }
-    $result .= addHTMLTableRow($result);
+    $result = addHTMLTableRow($result);
     while($row = $set->fetch_row()) {
         $rowHTML = "";
         foreach ($row as $val) {
