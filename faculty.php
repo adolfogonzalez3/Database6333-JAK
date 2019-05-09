@@ -54,6 +54,7 @@ while($row = $rows->fetch_row()) {
             <button class="form-input input-submit" onclick="createProject()">Create Project</button> <br>
             <button class="form-input input-submit" onclick="deleteProject()">Delete Project</button> <br>
             <button class="form-input input-submit" onclick="viewProjects()">View Projects</button> <br>
+            <button class="form-input input-submit" onclick="addUserToProject()">Add User to Project</button> <br>
             <button class="form-input input-submit" onclick="createExperiment()">Create Experiment</button> <br>
             <button class="form-input input-submit" onclick="viewExperiments()">View Experiments</button> <br>
             <button class="form-input input-submit" onclick="createEquipment()">Create Equipment</button> <br>
@@ -147,10 +148,18 @@ while($row = $rows->fetch_row()) {
             $projectName = $_POST['projectName'];
             if ($conn = DB_CONNECT()) {
                 $ID = getProjectIDByName($conn, $projectName);
-                echo $ID;
-                echo "hmm..";
                 $ID = deleteProject($conn, $ID);
                 echo "Project deleted successfully";
+            }
+        }
+                
+        if (isset($_POST['userToAdd'], $_POST['projectName'])) {
+            $projectName = $_POST['projectName'];
+            if ($conn = DB_CONNECT()) {
+                $ID = getProjectIDByName($conn, $projectName);
+                $userID = getUserByName($conn, $_POST['userToAdd'])[0];
+                assignUserToProject($conn, $userID, $ID);
+                echo "User added to project.";
             }
         }
         ?>
@@ -577,6 +586,67 @@ while($row = $rows->fetch_row()) {
                 e9.setAttribute("value", "Delete");
                 e9.setAttribute("class", "form-input2 input-submit");
                 form.appendChild(e9);
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+            
+            function addUserToProject() {
+                var formDiv = document.getElementById("formDiv");
+                if (formDiv.childNodes.length > 0) {
+                    var element = document.getElementById("leForm");
+                    element.parentNode.removeChild(element);
+                }
+                
+                var form = document.createElement('form');
+                form.setAttribute('id', "leForm");
+                form.setAttribute('autocomplete', 'off');
+                form.setAttribute('method', 'POST');
+                formDiv.appendChild(form);
+                
+                var e1 = document.createElement('text');
+                e1.innerHTML = "<br>Add User to Project<br>";
+                form.appendChild(e1);
+                
+                var e2 = document.createElement('text');
+                e2.innerHTML = "<br>Enter User: <br>";
+                form.appendChild(e2);
+                
+                var e3 = document.createElement('select');
+                e3.setAttribute('name', 'userToAdd');
+                e3.setAttribute('required', true);
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    var o = document.createElement('option');
+                    o.setAttribute('value', data[i]);
+                    o.innerHTML = data[i];
+                    e3.appendChild(o);
+                }                
+                form.appendChild(e3);
+                
+                var e4 = document.createElement('text');
+                e4.innerHTML = "<br>Enter Project: <br>";
+                form.appendChild(e4);
+                
+                var e5 = document.createElement('select');
+                e5.setAttribute('name', 'projectName');
+                e5.setAttribute('required', true);
+                var i;
+                for (i = 0; i < projects.length; i++) {
+                    var o = document.createElement('option');;
+                    o.setAttribute('value', projects[i]);
+                    o.innerHTML = projects[i];
+                    e5.appendChild(o);
+                }
+                form.appendChild(e5);
+                                
+                var e12 = document.createElement('text');
+                e12.innerHTML = "<br><br>";
+                form.appendChild(e12);
+                
+                var e13 = document.createElement('input');
+                e13.setAttribute("type", "submit");
+                e13.setAttribute("value", "Submit");
+                e13.setAttribute("class", "form-input2 input-submit");
+                form.appendChild(e13);
                 window.scrollTo(0,document.body.scrollHeight);
             }
         </script>
