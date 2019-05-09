@@ -73,6 +73,14 @@ h1{
     border-radius: 4px;
 }
 
+.form-input4 {
+    width:25%;
+    font-family: 'Montserrat', sans-serif;
+    padding: 7px 10px;
+    border: 1px solid #362aa5;
+    border-radius: 4px;
+}
+
 .input-login{
     background: 0;
     margin: 5px 0 15px 0;

@@ -25,7 +25,7 @@ if ($conn = DB_CONNECT()) {
         <h1>JAK</h1>
         <h2>Projects Page</h2>
         
-        <button onclick="homePage()">Home Page</button>
+        <button class="form-input4 input-submit" onclick="homePage()">Home Page</button>
         <br><br>
         
         <?php
