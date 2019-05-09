@@ -2,6 +2,7 @@
 require_once 'Functions/ConnectionFunctionSet.php';
 require_once 'Functions/ValidationFunctionSet.php';
 require_once 'Functions/RetrievalFunctionSet.php';
+require_once 'Functions/ConstructionFunctionSet.php';
 
 if(!isset($_SESSION)) {
     session_start();
@@ -17,6 +18,7 @@ if ($conn = DB_CONNECT()) {
 <html>
     <head>
         <title>Website Title</title>
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
         <h1>JAK</h1>
@@ -26,37 +28,11 @@ if ($conn = DB_CONNECT()) {
         <br><br>
         
         <?php
-            $conn = DB_CONNECT();
             $ID = $_SESSION['user_id'];
             $rows = getUserProjects($conn, $ID);
-            $finfo = $rows->fetch_fields();
+            $html = buildTableFromSet($rows);
+            echo($html);
         ?>
-        <table>
-        <tr>
-        <?php
-            foreach ($finfo as $val) {
-        ?>
-                <th><?=$val->name?></th>
-        <?php
-            }
-        ?>
-            </tr>
-        <?php
-            while($row = $rows->fetch_row()) {
-        ?>
-                <tr>
-        <?php
-                foreach($row as $col) {
-        ?>
-                    <td><?=$col?></td>
-        <?php
-                }
-        ?>
-                </tr>
-        <?php
-            }
-        ?>
-        </table>
         
         <script type="text/javascript">
             function homePage() {

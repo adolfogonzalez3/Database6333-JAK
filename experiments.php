@@ -17,6 +17,7 @@ if ($conn = DB_CONNECT()) {
 <html>
     <head>
         <title>Website Title</title>
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
         <h1>JAK</h1>
@@ -24,40 +25,13 @@ if ($conn = DB_CONNECT()) {
         
         <button onclick="homePage()">Home Page</button>
         <br><br>
-        
         <?php
             $conn = DB_CONNECT();
             $ID = $_SESSION['user_id'];
             $rows = getUserExperiments($conn, $ID);
-            $finfo = $rows->fetch_fields();
+            $html = buildTableFromSet($rows);
+            echo($html);
         ?>
-        <table>
-        <tr>
-        <?php
-            foreach ($finfo as $val) {
-        ?>
-                <th><?=$val->name?></th>
-        <?php
-            }
-        ?>
-            </tr>
-        <?php
-            while($row = $rows->fetch_row()) {
-        ?>
-                <tr>
-        <?php
-                foreach($row as $col) {
-        ?>
-                    <td><?=$col?></td>
-        <?php
-                }
-        ?>
-                </tr>
-        <?php
-            }
-        ?>
-        </table>
-        
         <script type="text/javascript">
             function homePage() {
                 // Need to distinguish between Students and Faculty
