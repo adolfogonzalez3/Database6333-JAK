@@ -18,8 +18,6 @@
         {
             unset($this->_conn);
         }
-
-        
      
         public function testCreatePerson()
         {
@@ -88,6 +86,17 @@
             $EID = createEquipment($this->_conn, "test", 0, "place");
             assignEquipmentToFaculty($this->_conn, $EID, $FID);
             
+        }
+
+        public function testDeleteProject()
+        {
+            $startDate = date("Y-m-d");
+            $endDate = date("Y-m-d");
+            $ID = createFaculty($this->_conn, "test", "password", "CS");
+            $ID = createProject($this->_conn, "test", $ID, $startDate, $endDate);
+            $this->assertTrue(projectExists($this->_conn, $ID));
+            deleteProject($this->_conn, $ID);
+            $this->assertFalse(projectExists($this->_conn, $ID));
         }
     }
 ?>
