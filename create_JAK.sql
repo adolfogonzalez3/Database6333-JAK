@@ -44,7 +44,7 @@ create table environment (
 create table equipment (
     ID INT NOT NULL AUTO_INCREMENT,
     name varchar(32), category INT,
-    location varchar(32),
+    location varchar(32), 
     PRIMARY KEY (ID));
                         
 create table agent (

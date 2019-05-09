@@ -284,6 +284,27 @@
     }
 
     /*
+    * Deletes a project based on the ID.
+    * 
+    * Removes a tuple from the project table.
+    * conn (mysqli Connection): A connection to the database.
+    * ID (Int): The ID of the project.
+    *
+    * Return (INT): ID of the new tuple. Or FALSE on fail.
+    */
+    function deleteProject($conn, $ID) {
+        $sql = "DELETE FROM project where ID=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $ID);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+        return true;
+    }
+
+    /*
     * Create a Faculty member given the required fields.
     * 
     * Inserts a tuple into the person and faculty tables.
